@@ -18,7 +18,7 @@ class TodoRepositoryImpl(private val dao: TodoDao): TodoRepository {
         return dao.getTodoById(id)
     }
 
-    override fun getTodo(): Flow<List<Todo>> {
+    override fun getTodo(): Flow<MutableList<Todo>> {
         return dao.getTodo()
     }
 }
