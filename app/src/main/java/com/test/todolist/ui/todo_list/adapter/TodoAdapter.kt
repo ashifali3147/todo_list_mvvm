@@ -1,14 +1,10 @@
-package com.test.todolist.ui.adapter
+package com.test.todolist.ui.todo_list.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.test.todolist.data.entity.Todo
-import com.test.todolist.data.repository.TodoRepositoryImpl
 import com.test.todolist.databinding.CustomTodoViewBinding
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.toList
 
 class TodoAdapter(private val context: Context): RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
     class TodoViewHolder(val binding: CustomTodoViewBinding) : RecyclerView.ViewHolder(binding.root) {
