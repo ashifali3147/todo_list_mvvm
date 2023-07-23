@@ -7,6 +7,8 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import com.test.todolist.R
 import com.test.todolist.databinding.ActivityMainBinding
 import com.test.todolist.ui.add_edit_todo.AddEditTodoFragment
@@ -41,17 +43,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setFragment(routes: String?) {
+        var fragment: Fragment? = null
         if (routes == Routes.ADD_EDIT_TODO){
-            supportFragmentManager.beginTransaction()
-                .setReorderingAllowed(true)
-                .replace(R.id.fragment_container_view, AddEditTodoFragment::class.java, null)
-                .commit()
+            fragment = AddEditTodoFragment()
         }
         else if (routes == Routes.TODO_LIST){
-            supportFragmentManager.beginTransaction()
-                .setReorderingAllowed(true)
-                .replace(R.id.fragment_container_view, TodoListFragment::class.java, null)
-                .commit()
+            fragment = TodoListFragment()
+        }
+
+        supportFragmentManager.commit {
+            add(R.id.fragment_container_view, fragment!!)
+            setReorderingAllowed(true)
+            addToBackStack(routes)
         }
     }
 }
