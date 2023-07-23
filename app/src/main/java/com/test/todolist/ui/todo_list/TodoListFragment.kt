@@ -2,17 +2,15 @@ package com.test.todolist.ui.todo_list
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Message
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.compose.rememberNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.test.todolist.databinding.FragmentTodoListBinding
+import com.test.todolist.ui.todo_list.adapter.TodoAdapter
 import com.test.todolist.util.Constant
 import com.test.todolist.util.UiEvent
 import kotlinx.coroutines.CoroutineScope
@@ -36,6 +34,17 @@ class TodoListFragment : Fragment() {
         }
 
         binding.fabAdd.setOnClickListener { viewModel.onEvent(TodoListEvents.OnAddTodoClick) }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.todo.collect(){ todoList ->
+                CoroutineScope(Dispatchers.Main).launch {
+                    binding.rvTodoList.layoutManager = LinearLayoutManager(requireContext())
+                    binding.rvTodoList.adapter = TodoAdapter(requireContext(), todoList, viewModel)
+                }
+            }
+        }
+
+
 
         return binding.root
     }

@@ -3,10 +3,17 @@ package com.test.todolist.ui.todo_list.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.recyclerview.widget.RecyclerView
+import com.test.todolist.data.entity.Todo
 import com.test.todolist.databinding.CustomTodoViewBinding
+import com.test.todolist.ui.todo_list.TodoListEvents
+import com.test.todolist.ui.todo_list.TodoListViewModel
 
-class TodoAdapter(private val context: Context): RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
+class TodoAdapter(
+    private val context: Context,
+    val todoList: MutableList<Todo>, val viewModel: TodoListViewModel
+): RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
     class TodoViewHolder(val binding: CustomTodoViewBinding) : RecyclerView.ViewHolder(binding.root) {
     }
 
@@ -19,12 +26,19 @@ class TodoAdapter(private val context: Context): RecyclerView.Adapter<TodoAdapte
     }
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
-//        holder.binding.imgDelete.setOnClickListener {repositoryImpl.deleteTodo(todoList[position])}
+        val todo = todoList[position]
+        binding.tvTitle.text = todo.title
+        binding.tvDescription.text = todo.description
+        binding.isDone.isChecked = todo.isDone
+        holder.binding.imgDelete.setOnClickListener { viewModel.onEvent(TodoListEvents.DeleteTodo(todo))}
+        holder.binding.isDone.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.onEvent(TodoListEvents.OnDoneChange(todo, isChecked))
+        }
+        holder.binding.imgDelete.setOnClickListener { viewModel.onEvent(TodoListEvents.DeleteTodo(todo)) }
     }
 
     override fun getItemCount(): Int {
-        TODO()
-//        return todoList.toList().size
+        return todoList.toList().size
     }
 
 }

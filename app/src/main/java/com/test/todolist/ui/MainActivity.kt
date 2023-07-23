@@ -52,9 +52,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         supportFragmentManager.commit {
-            add(R.id.fragment_container_view, fragment!!)
+            replace(R.id.fragment_container_view, fragment!!)
             setReorderingAllowed(true)
             addToBackStack(routes)
         }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+
     }
 }
