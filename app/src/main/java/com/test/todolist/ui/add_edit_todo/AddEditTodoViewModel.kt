@@ -29,18 +29,18 @@ class AddEditTodoViewModel @Inject constructor(private val repository: TodoRepos
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-//    init {
-//        val todoId = savedStateHandle.get<Int>("todoId")!!
-//        if (todoId != -1){
-//            viewModelScope.launch {
-//                repository.getTodoById(todoId)?.let { todo ->
-//                    title = todo.title
-//                    description = todo.description ?: ""
-//                    this@AddEditTodoViewModel.todo = todo
-//                }
-//            }
-//        }
-//    }
+    init {
+        val todoId = savedStateHandle.get<Int>("todoId")!!
+        if (todoId != -1){
+            viewModelScope.launch {
+                repository.getTodoById(todoId)?.let { todo ->
+                    title = todo.title
+                    description = todo.description ?: ""
+                    this@AddEditTodoViewModel.todo = todo
+                }
+            }
+        }
+    }
 
     fun onEvent(events: AddEditTodoEvents){
         when(events){

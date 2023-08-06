@@ -35,7 +35,7 @@ class TodoAdapter(
             viewModel.onEvent(TodoListEvents.OnDoneChange(todo, isChecked))
         }
         holder.binding.imgDelete.setOnClickListener { viewModel.onEvent(TodoListEvents.DeleteTodo(todo)) }
-//        holder.binding.wholeView.setOnClickListener { viewModel.onEvent(TodoListEvents.OnTodoClick(todo)) }
+        holder.binding.wholeView.setOnClickListener { viewModel.onEvent(TodoListEvents.OnTodoClick(todo)) }
     }
 
     override fun getItemCount(): Int {

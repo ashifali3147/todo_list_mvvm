@@ -12,10 +12,11 @@ import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
 import com.test.todolist.databinding.FragmentAddEditTodoBinding
 import com.test.todolist.util.UiEvent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
+@AndroidEntryPoint
 class AddEditTodoFragment : Fragment() {
     private lateinit var binding: FragmentAddEditTodoBinding
     private val viewModel by activityViewModels<AddEditTodoViewModel>()
@@ -39,8 +40,8 @@ class AddEditTodoFragment : Fragment() {
             }
         }
 
-//        binding.edtTitle.setText(viewModel.title)
-//        binding.edtDescription.setText(viewModel.description)
+        binding.edtTitle.setText(viewModel.title)
+        binding.edtDescription.setText(viewModel.description)
 
         binding.edtTitle.doOnTextChanged { text, start, before, count ->
             viewModel.onEvent(AddEditTodoEvents.OnTitleChange(text.toString()))

@@ -15,11 +15,12 @@ import com.test.todolist.R
 import com.test.todolist.databinding.FragmentTodoListBinding
 import com.test.todolist.ui.todo_list.adapter.TodoAdapter
 import com.test.todolist.util.UiEvent
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
+@AndroidEntryPoint
 class TodoListFragment : Fragment() {
     private lateinit var binding: FragmentTodoListBinding
     private val viewModel by activityViewModels<TodoListViewModel>()
