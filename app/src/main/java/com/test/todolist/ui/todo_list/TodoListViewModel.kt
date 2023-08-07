@@ -25,7 +25,7 @@ class TodoListViewModel @Inject constructor(private val repository: TodoReposito
     fun onEvent(events: TodoListEvents){
         when(events){
             is TodoListEvents.OnTodoClick -> {
-                sendUiEvent(UiEvent.Navigate(events.todo.id.toString()))
+                sendUiEvent(UiEvent.Navigate(Routes.ADD_EDIT_TODO, events.todo.id))
             }
             is TodoListEvents.DeleteTodo -> {
                 viewModelScope.launch {
