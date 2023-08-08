@@ -36,13 +36,11 @@ class AddEditTodoFragment : Fragment() {
                 when(events){
                     is UiEvent.ShowSnackBar -> {showSnackBar(events.message, events.action)}
                     is UiEvent.PopBackStack -> { navController.popBackStack()}
+                    is UiEvent.UpdateUI -> { updateUI() }
                     else -> Unit
                 }
             }
         }
-
-        binding.edtTitle.setText(viewModel.title)
-        binding.edtDescription.setText(viewModel.description)
 
         binding.edtTitle.doOnTextChanged { text, start, before, count ->
             viewModel.onEvent(AddEditTodoEvents.OnTitleChange(text.toString()))
@@ -53,6 +51,11 @@ class AddEditTodoFragment : Fragment() {
         binding.fabDone.setOnClickListener { viewModel.onEvent(AddEditTodoEvents.OnSaveTodoClick) }
 
         return binding.root
+    }
+
+    private fun updateUI() {
+        binding.edtTitle.setText(viewModel.title)
+        binding.edtDescription.setText(viewModel.description)
     }
 
     private fun showSnackBar(message: String, action: String?){

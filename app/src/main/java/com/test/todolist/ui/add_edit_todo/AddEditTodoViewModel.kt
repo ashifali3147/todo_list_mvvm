@@ -37,6 +37,7 @@ class AddEditTodoViewModel @Inject constructor(private val repository: TodoRepos
                     title = todo.title
                     description = todo.description ?: ""
                     this@AddEditTodoViewModel.todo = todo
+                    sendUiEvent(UiEvent.UpdateUI)
                 }
             }
         }
