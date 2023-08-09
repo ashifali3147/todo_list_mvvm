@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavArgument
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -38,7 +39,7 @@ class TodoListFragment : Fragment() {
     ): View {
 
         binding = FragmentTodoListBinding.inflate(LayoutInflater.from(context))
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycleScope.launch(Dispatchers.Main) {
             viewModel.uiEvent.collect() { event ->
                 when (event) {
                     is UiEvent.ShowSnackBar -> {
@@ -54,12 +55,10 @@ class TodoListFragment : Fragment() {
 
         binding.fabAdd.setOnClickListener { viewModel.onEvent(TodoListEvents.OnAddTodoClick) }
 
-        CoroutineScope(Dispatchers.IO).launch {
-            viewModel.todo.collect() { todoList ->
-                withContext(Dispatchers.Main) {
-                    binding.rvTodoList.layoutManager = LinearLayoutManager(requireContext())
-                    binding.rvTodoList.adapter = TodoAdapter(requireContext(), todoList, viewModel)
-                }
+        lifecycleScope.launch(Dispatchers.Main) {
+            viewModel.todo.collect { todoList ->
+                binding.rvTodoList.layoutManager = LinearLayoutManager(requireContext())
+                binding.rvTodoList.adapter = TodoAdapter(requireContext(), todoList, viewModel)
             }
         }
 
